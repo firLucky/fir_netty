@@ -23,14 +23,18 @@ public class MsgController {
     /**
      * 向一个客户端发送消息
      *
-     * @param id 客户端编号
+     * @param token 客户端编号(此处暂时使用token)
      * @param msg 消息
      */
     @GetMapping("/send")
-    public String send(String id, String msg){
+    public String send(String token, String msg){
+
+        if(token == null){
+            throw new RuntimeException("无效的客户端编号");
+        }
 
         // 客户端ID
-        Channel channel = ChannelMap.getChannelByName(id);
+        Channel channel = ChannelMap.getChannelByName(token);
         if (null == channel) {
             throw new RuntimeException("客户端已离线");
         }
